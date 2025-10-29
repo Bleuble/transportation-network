@@ -1,9 +1,7 @@
-MSTResult$InputStats.class
-Main.class
-PrimAlgorithm.class
-MSTResult.class
-MSTResult$AlgorithmResult.class
-KruskalAlgorithm.class
-Graph.class
-UnionFind.class
-Graph$Edge.class
+main/java/UnionFind.class
+main/java/Main.class
+main/java/PrimAlgorithm.class
+main/java/Graph$Edge.class
+main/java/KruskalAlgorithm.class
+main/java/Graph.class
+main/java/MSTResult.class
