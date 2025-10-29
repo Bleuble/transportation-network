@@ -1,18 +1,26 @@
 package main.java;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MSTResult {
-    public String algorithm;
-    public List<Graph.Edge> mstEdges;
-    public int totalCost;
-    public double executionTimeMs;
+    public int graphId;
+    public int vertices;
+    public int edges;
+    public int primTotalCost;
+    public int kruskalTotalCost;
+    public int primOperations;
+    public int kruskalOperations;
+    public double primTimeMs;
+    public double kruskalTimeMs;
+    public List<Graph.Edge> primMstEdges;
+    public List<Graph.Edge> kruskalMstEdges;
     
-    public MSTResult(String algorithm) {
-        this.algorithm = algorithm;
-        this.mstEdges = new ArrayList<>();
-        this.totalCost = 0;
-        this.executionTimeMs = 0.0;
+    public MSTResult(int graphId, int vertices, int edges) {
+        this.graphId = graphId;
+        this.vertices = vertices;
+        this.edges = edges;
+        this.primMstEdges = new ArrayList<>();
+        this.kruskalMstEdges = new ArrayList<>();
     }
 }

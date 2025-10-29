@@ -1,16 +1,20 @@
 package main.java;
-import java.util.List;
-import java.util.ArrayList;
+
+import java.util.*;
 
 public class Graph {
-    public int vertices;
+    public int id;
     public List<String> nodes;
     public List<Edge> edges;
     
     public Graph() {
         this.nodes = new ArrayList<>();
         this.edges = new ArrayList<>();
-        this.vertices = 0;
+    }
+    
+    public Graph(int id) {
+        this();
+        this.id = id;
     }
     
     public void addNode(String node) {
@@ -26,7 +30,7 @@ public class Graph {
     }
     
     public int getVerticesCount() {
-        return Math.max(vertices, nodes.size());
+        return nodes.size();
     }
     
     public static class Edge implements Comparable<Edge> {
@@ -47,7 +51,7 @@ public class Graph {
         
         @Override
         public String toString() {
-            return from + "-" + to + ":" + weight;
+            return "{\"from\": \"" + from + "\", \"to\": \"" + to + "\", \"weight\": " + weight + "}";
         }
     }
 }

@@ -1,34 +1,55 @@
 package main.java;
 
+import java.util.*;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("=== Kruskal Algorithm Test ===");
+        System.out.println("=== Transportation Network Optimization ===");
         
-        Graph graph = createTestGraph();
+        String inputFile = "input.json";
+        String outputFile = "output.json";
         
-        System.out.println("Graph nodes: " + graph.nodes);
-        System.out.println("Graph edges: " + graph.edges);
+        List<Graph> graphs = JSONParser.parseInput(inputFile);
+        List<MSTResult> results = new ArrayList<>();
         
-        MSTResult result = KruskalAlgorithm.findMST(graph);
+        for (Graph graph : graphs) {
+            System.out.println("\n=== Graph " + graph.id + " ===");
+            System.out.println("Nodes: " + graph.nodes);
+            System.out.println("Edges: " + graph.edges);
+            
+            PrimAlgorithm.PrimResult primResult = PrimAlgorithm.findMST(graph);
+            KruskalAlgorithm.KruskalResult kruskalResult = KruskalAlgorithm.findMST(graph);
+            
+            MSTResult comparison = new MSTResult(
+                graph.id, 
+                graph.getVerticesCount(), 
+                graph.edges.size()
+            );
+            
+            comparison.primTotalCost = primResult.totalCost;
+            comparison.kruskalTotalCost = kruskalResult.totalCost;
+            comparison.primOperations = primResult.operationsCount;
+            comparison.kruskalOperations = kruskalResult.operationsCount;
+            comparison.primTimeMs = primResult.executionTimeMs;
+            comparison.kruskalTimeMs = kruskalResult.executionTimeMs;
+            comparison.primMstEdges = primResult.mstEdges;
+            comparison.kruskalMstEdges = kruskalResult.mstEdges;
+            
+            results.add(comparison);
+            
+            System.out.println("Prim    - Cost: " + primResult.totalCost + 
+                             ", Time: " + String.format("%.2f", primResult.executionTimeMs) + "ms" +
+                             ", Operations: " + primResult.operationsCount);
+            System.out.println("Kruskal - Cost: " + kruskalResult.totalCost + 
+                             ", Time: " + String.format("%.2f", kruskalResult.executionTimeMs) + "ms" +
+                             ", Operations: " + kruskalResult.operationsCount);
+            
+            if (primResult.totalCost == kruskalResult.totalCost) {
+                System.out.println("✓ Costs match - both algorithms correct!");
+            }
+        }
         
-        System.out.println("\n=== Results ===");
-        System.out.println("Algorithm: " + result.algorithm);
-        System.out.println("MST edges: " + result.mstEdges);
-        System.out.println("Total cost: " + result.totalCost);
-        System.out.println("Execution time: " + result.executionTimeMs + " ms");
-        
-        System.out.println("\n=== Test completed successfully! ===");
-    }
-    
-    private static Graph createTestGraph() {
-        Graph graph = new Graph();
-        
-        graph.addEdge("A", "B", 1);
-        graph.addEdge("B", "C", 2);
-        graph.addEdge("C", "D", 3);
-        graph.addEdge("A", "D", 4);
-        graph.addEdge("B", "D", 5);
-        
-        return graph;
+        JSONParser.writeOutput(outputFile, results);
+        System.out.println("\n=== Analysis completed ===");
     }
 }
